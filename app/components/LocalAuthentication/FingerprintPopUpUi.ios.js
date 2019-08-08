@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import * as LocalAuthentication from "expo-local-authentication";
 import { NavigationActions } from "react-navigation";
-import withNavigation from "react-navigation/src/views/withNavigation";
 import { Text, View } from "react-native";
 import ShakingImage from "../Utils/ShakingImage";
 import styles from "./FingerprintPopupStyles";

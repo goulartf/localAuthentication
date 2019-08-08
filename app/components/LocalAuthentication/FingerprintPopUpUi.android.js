@@ -1,13 +1,9 @@
 import React, { Component } from "react";
 import {
-  Alert,
   BackHandler,
-  Image,
   Text,
   TouchableOpacity,
-  View,
-  ViewPropTypes,
-  Platform
+  View
 } from "react-native";
 
 import styles from "./FingerprintPopupStyles";

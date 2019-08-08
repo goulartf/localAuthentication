@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AsyncStorage, BackHandler, Text, TextInput, View } from 'react-native';
+import { BackHandler, Text, TextInput, View } from 'react-native';
 
 import PinBoxList from './PinBoxList';
 import styles from './Styles';
