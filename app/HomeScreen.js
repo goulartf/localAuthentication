@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Switch, Platform, Button } from "react-native";
+import {
+  AppState,
+  StyleSheet,
+  Text,
+  View,
+  Switch,
+  Platform,
+  Button
+} from "react-native";
 import LocalAuthenticationService, {
   AUTH_LOCATION_DISABLE,
   AUTH_LOCATION_ENABLE
@@ -11,11 +19,11 @@ const localAuthenticationService = new LocalAuthenticationService();
 export default class HomeScreen extends Component {
   state = {
     localAuthenticationAvailable: true,
-    localAuthentication: false
+    localAuthentication: false,
+    appState: AppState.currentState
   };
 
   async componentDidMount() {
-
     const hasHardwareAsync = await LocalAuthentication.hasHardwareAsync();
     const supportedAuthenticationTypesAsync = await LocalAuthentication.supportedAuthenticationTypesAsync();
     const isEnrolledAsync = await LocalAuthentication.isEnrolledAsync();
@@ -25,12 +33,32 @@ export default class HomeScreen extends Component {
       supportedAuthenticationTypesAsync.indexOf(1) !== -1
     ) {
       const localAuthentication = await localAuthenticationService.isEnable();
+
+      if (localAuthentication) {
+        this.runLocalAuthentication();
+        AppState.addEventListener("change", this._handleAppStateChange);
+      }
+
       this.setState({ localAuthentication });
     } else {
       this.setState({ localAuthenticationAvailable: false });
     }
-
   }
+
+  componentWillUnmount() {
+    AppState.removeEventListener("change", this._handleAppStateChange);
+  }
+
+  _handleAppStateChange = nextAppState => {
+    if (
+      this.state.appState.match(/inactive|background/) &&
+      nextAppState === "active"
+    ) {
+      console.log("App has come to the foreground!");
+      this.runLocalAuthentication();
+    }
+    this.setState({ appState: nextAppState });
+  };
 
   updatePreferenceLocalAuthentication = async val => {
     if (val && Platform.OS === "android") {
@@ -54,6 +82,15 @@ export default class HomeScreen extends Component {
     }
   };
 
+  runLocalAuthentication() {
+    let localAuthenticationService = new LocalAuthenticationService();
+    localAuthenticationService.isEnable().then(enable => {
+      if (enable) {
+        this.props.navigation.navigate("FingerprintPopup");
+      }
+    });
+  }
+
   render() {
     const { localAuthenticationAvailable, localAuthentication } = this.state;
     const { navigation } = this.props;
@@ -72,9 +109,11 @@ export default class HomeScreen extends Component {
             />
 
             {localAuthentication && (
-                <Button onPress={ () => navigation.navigate('FingerprintPopup')} title='Click Here to try' />
+              <Button
+                onPress={() => navigation.navigate("FingerprintPopup")}
+                title="Click Here to try"
+              />
             )}
-
           </React.Fragment>
         )}
         {!localAuthenticationAvailable && (
