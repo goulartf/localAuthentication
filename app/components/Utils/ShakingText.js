@@ -48,12 +48,4 @@ class ShakingText extends Component {
   }
 }
 
-ShakingText.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]),
-  style: Text.propTypes.style,
-};
-
 export default ShakingText;
