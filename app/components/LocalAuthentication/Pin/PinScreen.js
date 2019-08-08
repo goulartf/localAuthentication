@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { BackHandler, Text, TextInput, View } from 'react-native';
+import React, { Component } from "react";
+import { BackHandler, Text, TextInput, View } from "react-native";
 
-import PinBoxList from './PinBoxList';
-import styles from './Styles';
-import ShakingText from '../../Utils/ShakingText';
+import PinBoxList from "./PinBoxList";
+import styles from "./Styles";
+import ShakingText from "../../Utils/ShakingText";
 
-import LocalAuthenticationService from '../../../services/LocalAuthenticationService';
+import LocalAuthenticationService from "../../../services/LocalAuthenticationService";
 const localAuthenticationService = new LocalAuthenticationService();
 
 const ATTEMPT_TIMES_LIMIT = 3;
@@ -16,16 +16,16 @@ export default class PinScreen extends Component {
 
     this.state = {
       maxPinLength: 4,
-      pinValue: '',
-      errorMessage: '',
-      attemptTimesLimit: ATTEMPT_TIMES_LIMIT,
+      pinValue: "",
+      errorMessage: "",
+      attemptTimesLimit: ATTEMPT_TIMES_LIMIT
     };
   }
 
   componentDidMount() {
     this.backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      () => this.handleBackPress,
+      "hardwareBackPress",
+      () => this.handleBackPress
     );
   }
 
@@ -56,16 +56,14 @@ export default class PinScreen extends Component {
 
       if (attemptTimesLimit <= 0) {
         this.setState({
-          errorMessage: 'Bloqueado, tente novamente mais tarde',
-          attemptTimesLimit: attemptTimesLimit,
+          errorMessage: "Blocked, try later!",
+          attemptTimesLimit: attemptTimesLimit
         });
       } else {
         this.setState({
-          pinValue: '',
-          errorMessage:
-            'O Pins são diferentes, tente novamente, tentativas restantes: ' +
-            attemptTimesLimit,
-          attemptTimesLimit: attemptTimesLimit,
+          pinValue: "",
+          errorMessage: "PIN not match, try again: ",
+          attemptTimesLimit: attemptTimesLimit
         });
       }
       this.description.shake();

@@ -55,7 +55,7 @@ export default class PinScreenRegister extends Component {
 
       return;
     } else {
-      alert("Pins are not match! Try Again!");
+      alert("PiN not match! Try Again!");
       this.setState({
         pinValue: ""
       });

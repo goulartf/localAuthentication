@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {
-  BackHandler,
-  Text,
-  TouchableOpacity,
-  View
-} from "react-native";
+import { BackHandler, Text, TouchableOpacity, View } from "react-native";
 
 import styles from "./FingerprintPopupStyles";
 import * as LocalAuthentication from "expo-local-authentication";
@@ -12,7 +7,6 @@ import ShakingImage from "../Utils/ShakingImage";
 import { NavigationActions } from "react-navigation";
 
 class FingerprintPopUpUi extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -34,7 +28,6 @@ class FingerprintPopUpUi extends Component {
    * @returns {Promise<void>}
    */
   async authentication() {
-
     // setTimeout was implemeted to minimize errors not indentified on expo
     setTimeout(async () => {
       LocalAuthentication.cancelAuthenticate();
@@ -50,8 +43,7 @@ class FingerprintPopUpUi extends Component {
 
         // I put this conditional to prevent expo bugs and not enter in infinite loop
         if (attemptTimes >= 10) {
-          message =
-            "Ocorreu algum erro inesperado, tente com o PIN ou reinicie seu aplicativo.";
+          message = "Something is wrong, try PIN or restart your app";
           return LocalAuthentication.cancelAuthenticate();
         }
 
@@ -67,7 +59,6 @@ class FingerprintPopUpUi extends Component {
         });
       }
     }, 1000);
-
   }
 
   componentWillUnmount() {
